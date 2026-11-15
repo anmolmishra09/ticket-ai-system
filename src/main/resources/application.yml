@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: support-ticket-management
+  profiles:
+    default: dev
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:support_ticket_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: ${DB_USERNAME:support_user}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 20000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate        # schema is owned by Flyway, never by Hibernate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    fail-on-missing-locations: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    access-expiration-ms: ${JWT_EXPIRATION:900000}            # 15 minutes
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION:604800000} # 7 days
+    issuer: support-ticket-management
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta}
+    model: ${GEMINI_MODEL:gemini-2.5-flash}
+    timeout-ms: ${GEMINI_TIMEOUT_MS:10000}
+    max-retries: ${GEMINI_MAX_RETRIES:2}
+    retry-backoff-ms: ${GEMINI_RETRY_BACKOFF_MS:500}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  storage:
+    upload-dir: ${UPLOAD_DIR:./uploads}
+
+logging:
+  level:
+    root: INFO
+    com.example.support: INFO

@@ -1,0 +1,16 @@
+# Datasource is supplied by Testcontainers (@ServiceConnection).
+spring:
+  flyway:
+    enabled: true
+
+app:
+  jwt:
+    secret: test-only-secret-0123456789abcdef0123456789
+  gemini:
+    api-key: ""
+  storage:
+    upload-dir: ./target/test-uploads
+
+logging:
+  level:
+    com.example.support: INFO

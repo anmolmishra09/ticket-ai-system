@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    password: ${DB_PASSWORD:change_me}
+  jpa:
+    show-sql: false
+
+app:
+  jwt:
+    # Development-only default. Never use this value outside local development.
+    secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
+
+logging:
+  level:
+    com.example.support: DEBUG
