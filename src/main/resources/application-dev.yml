@@ -1,14 +1,24 @@
+
 spring:
   datasource:
     password: ${DB_PASSWORD:change_me}
+
   jpa:
     show-sql: false
 
 app:
   jwt:
-    # Development-only default. Never use this value outside local development.
+    # Development-only default JWT secret
+    # Never use this default in production
     secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
 
 logging:
   level:
     com.example.support: DEBUG
+# # PS C:\Users\dell\Downloads\support-ticket-management> $env:DB_HOST = "localhost"
+# >> $env:DB_PORT = "3306"
+# >> $env:DB_NAME = "support_ticket_db"
+# >> $env:DB_USERNAME = "support_user"
+# >> $env:DB_PASSWORD = "Support@123"
+# >> 
+# >> $env:JWT_SECRET = "my-local-dev-secret-12345678901234567890123456789012"
